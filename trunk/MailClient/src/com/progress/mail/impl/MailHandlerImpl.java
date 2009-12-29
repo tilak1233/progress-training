@@ -27,7 +27,7 @@ public class MailHandlerImpl implements MailHandler{
 	}
 
 	public List<Message> getAllMails() {
-		String query = "select * from mailbox serverMailBox where serverMailBox.msg_id in (select msg_id from mailbox_stilak)"; //$NON-NLS-1$
+		String query = "select * from mailbox serverMailBox where serverMailBox.msg_id in (select msg_id from mailbox_"+ username+")"; //$NON-NLS-1$
 		return getMessagesFromDB(query);
 	}
 
@@ -47,23 +47,27 @@ public class MailHandlerImpl implements MailHandler{
 		this.username = username;
 		try {
 			conn = DBUtil.createConnection(username, password);
-			String updateQuery = "update clients set lastlogin = current_timestamp where email_id = '" + username + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (SQLException e) {
+			return false;
+		}
+
+		String updateQuery = "update clients set lastlogin = current_timestamp where email_id = '" + username + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+		try {
 			DBUtil.executeUpdateQuery(updateQuery, conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 		return true;
 	}
 	
 	public List<Message> getNewMails() {
-		String query = "select * from mailbox serverMailBoxwhere serverMailBox.msg_id in (select msg_id from mailbox_stilak) and serverMailBox.msg_time >= (select lastdisplay from clients where email_id=" //$NON-NLS-1$
-				+ username + ")"; //$NON-NLS-1$
+		String query = "select * from mailbox serverMailBox where serverMailBox.msg_id in (select msg_id from mailbox_"+ username+") and serverMailBox.msg_time >= (select lastdisplay from clients where email_id='" //$NON-NLS-1$
+				+ username + "')"; //$NON-NLS-1$
 
 		return getMessagesFromDB(query);
 	}
 
-	public void sendMail(Message msg) {
+	public boolean sendMail(Message msg) {
 		try {
 			String query = "call SP_UPDATE_MAILBOXES( ?, ?, ?, ?)"; //$NON-NLS-1$
 			PreparedStatement pstmt = conn.prepareStatement(query);
@@ -74,7 +78,9 @@ public class MailHandlerImpl implements MailHandler{
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	private String getToUsers(List<String> toUsers) {

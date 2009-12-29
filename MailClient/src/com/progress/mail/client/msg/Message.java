@@ -9,12 +9,19 @@ import java.util.List;
  *
  */
 public class Message {
+	
+	public static final String EOM = "<EOM>";
 
 	private int msgId;
+	
 	private String fromUser;
+
 	private List<String> toUsers;
+	
 	private String subject;
+	
 	private String msgBody;
+
 	private Timestamp timestamp;
 	
 	public String getFromUser() {

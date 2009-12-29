@@ -3,6 +3,11 @@ package com.progress.mail.impl;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+/**
+ * 
+ * @author stilak
+ *
+ */
 public class PropertiesReader {
 	private static final String BUNDLE_NAME = "com.progress.mail.impl.messages"; //$NON-NLS-1$
 

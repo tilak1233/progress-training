@@ -18,7 +18,7 @@ public interface MailHandler {
 	
 	public List<Message> getNewMails();
 	
-	public void sendMail(Message msg);
+	public boolean sendMail(Message msg);
 
 	public void logout();
 	

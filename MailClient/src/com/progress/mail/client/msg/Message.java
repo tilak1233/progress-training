@@ -1,14 +1,22 @@
 package com.progress.mail.client.msg;
 
+import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * This class hold all the information for each mail message
+ * @author stilak
+ *
+ */
 public class Message {
 
+	private int msgId;
 	private String fromUser;
 	private List<String> toUsers;
 	private String subject;
 	private String msgBody;
-
+	private Timestamp timestamp;
+	
 	public String getFromUser() {
 		return fromUser;
 	}
@@ -39,6 +47,22 @@ public class Message {
 
 	public void setMsgBody(String msgBody) {
 		this.msgBody = msgBody;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setMsgId(int msgId) {
+		this.msgId = msgId;
+	}
+
+	public int getMsgId() {
+		return msgId;
 	}
 
 }

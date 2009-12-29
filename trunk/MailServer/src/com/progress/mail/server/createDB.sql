@@ -1,20 +1,18 @@
-DELIMITER $$
+DROP SCHEMA IF EXISTS emailsys_schema$$
+CREATE SCHEMA emailsys_schema$$
 
-DROP SCHEMA IF EXISTS mailserver_schema;
-CREATE SCHEMA mailserver_schema;
+use emailsys_schema$$
 
-use mailserver_schema;
-
-DROP TABLE IF EXISTS `clients`;
+DROP TABLE IF EXISTS `clients`$$
 CREATE TABLE `clients` (
   `email_id` varchar(30) NOT NULL,
   `lastlogin` timestamp NOT NULL default '0000-00-00 00:00:00',
   `lastlogout` timestamp NOT NULL default '0000-00-00 00:00:00',
   `lastdisplay` timestamp NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`email_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1$$
 
-DROP TABLE IF EXISTS `mailbox`;
+DROP TABLE IF EXISTS `mailbox`$$
 CREATE TABLE `mailbox` (
   `msg_id` int(10) unsigned NOT NULL auto_increment,
   `msg_to` varchar(2000) NOT NULL,
@@ -23,11 +21,10 @@ CREATE TABLE `mailbox` (
   `msg_body` text default NULL,
   `msg_time` timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  USING BTREE (`msg_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=latin1$$
 
 
-
-DROP FUNCTION IF EXISTS `SPLIT_STR`;
+DROP FUNCTION IF EXISTS `SPLIT_STR`$$
 CREATE DEFINER=`root`@`%` FUNCTION  `SPLIT_STR`(
   x VARCHAR(2000),
   delim VARCHAR(1),
@@ -36,9 +33,10 @@ CREATE DEFINER=`root`@`%` FUNCTION  `SPLIT_STR`(
 RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(x, delim, pos),
        LENGTH(SUBSTRING_INDEX(x, delim, pos -1)) + 1),
        delim, '');
+$$
 
 
-DROP PROCEDURE IF EXISTS `SP_UPDATE_MAILBOXES`;
+DROP PROCEDURE IF EXISTS `SP_UPDATE_MAILBOXES`$$
 CREATE DEFINER=`root`@`%` PROCEDURE  `SP_UPDATE_MAILBOXES`(msgto varchar(2000), msgfrom varchar(30), msgsubject varchar(100), msgbody text)
 BEGIN
 
@@ -65,4 +63,3 @@ set @i = 1;
 
 END $$
 
-DELIMITER ;

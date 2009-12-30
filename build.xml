@@ -1,0 +1,22 @@
+<project name="TrainingMailBox" default="dist">
+	<description>
+		Training Project Mail Build file
+	</description>
+	<property file="build.properties"/>
+	<target name="dist">
+		<ant antfile="${SERVER_BASE_DIR}/build.xml" inheritAll="true" target="dist">
+		</ant>
+		<ant antfile="${CLIENT_BASE_DIR}/build.xml" inheritAll="true" target="dist">
+		</ant>
+	</target >
+	<target name="createdb" description="creating the database">
+		<ant antfile="${SERVER_BASE_DIR}/build.xml" inheritAll="true" target="createdb">
+		</ant>
+	</target>
+	<target name="clean" description="clean up">
+		<ant antfile="${SERVER_BASE_DIR}/build.xml" inheritAll="true" target="clean">
+		</ant>
+		<ant antfile="${CLIENT_BASE_DIR}/build.xml" inheritAll="true" target="clean">
+		</ant>
+	</target >
+</project> 

@@ -1,6 +1,3 @@
-/**
- * @author Varun Tayal
- */
 package com.progress.mail.server;
 
 import java.sql.Connection;
@@ -8,6 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+/**
+ * This class resides on mail server and is used to register new mail clients, creates their user id's,
+ * passwords, their mailboxes in DB and grant permitted access to their mailboxes.
+ *  
+ * @author Varun Tayal
+ */
 
 public class UserRegistrationImpl {
 	public static void registerUsers(ArrayList<String> users) {

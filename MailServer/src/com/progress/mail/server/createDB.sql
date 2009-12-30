@@ -1,7 +1,11 @@
-DROP SCHEMA IF EXISTS mailserver_test_schema$$
-CREATE SCHEMA mailserver_test_schema$$
+/***
+ * @author Varun Tayal
+ */
 
-use mailserver_test_schema$$
+DROP SCHEMA IF EXISTS emailsys_schema$$
+CREATE SCHEMA emailsys_schema$$
+
+use emailsys_schema$$
 
 DROP TABLE IF EXISTS `clients`$$
 CREATE TABLE `clients` (

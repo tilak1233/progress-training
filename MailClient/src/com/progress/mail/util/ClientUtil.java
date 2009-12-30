@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import com.progress.mail.impl.PropertiesReader;
 
 /**
- * This class has the util methods of client , to get input , print etc...
+ * This class has the utility methods of client , to get input , print etc...
  * @author pchaitan
  * @since 29/12/2009
  */
@@ -19,6 +19,11 @@ public class ClientUtil {
 		InputStreamReader inReader = new InputStreamReader(System.in);
 		BufferedReader buffReader = new BufferedReader(inReader);
 		String input = buffReader.readLine();
+		while(input.equalsIgnoreCase("")) { //$NON-NLS-1$
+			Print.printLine();
+			Print.printString(PropertiesReader.getString("EnterNumber")); //$NON-NLS-1$
+			input = buffReader.readLine();
+		}
 		return input;
 	}
 	

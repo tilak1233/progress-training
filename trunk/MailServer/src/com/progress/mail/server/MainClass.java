@@ -2,6 +2,14 @@ package com.progress.mail.server;
 
 import java.util.ArrayList;
 
+/***
+ * This class is to run UserRegistrationImpl Class's registerUsers() method
+ * which takes Arraylist of names of users to be registered.
+ *  
+ * @author Varun Tayal
+ *
+ */
+
 public class MainClass {
 
 	public static void main(String[] args) {

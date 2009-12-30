@@ -3,6 +3,13 @@ package com.progress.mail.server;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+/***
+ * This class reads strings from a properties file.
+ * 
+ * @author Varun Tayal
+ *
+ */
+
 public class PropertiesReader {
 	private static final String BUNDLE_NAME = "com.progress.mail.server.server"; //$NON-NLS-1$
 

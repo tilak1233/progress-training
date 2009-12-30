@@ -2,19 +2,25 @@
 	<description>
 		simple example build file
 	</description>
-	<property file="build.properties"/>
+	<property file="build.properties" />
 	<!--- some comments -->
 	<property name="src" location="${CLIENT_BASE_DIR}/src" />
 	<property name="build" location="${CLIENT_BASE_DIR}/classes" />
 	<property name="dist" location="${CLIENT_BASE_DIR}/dist" />
 
+	<path id="compile.classpath">
+		<fileset dir="${CLIENT_BASE_DIR}/lib">
+			<include name="junit.jar" />
+		</fileset>
+	</path>
+	
 	<target name="init">
 		<!-- Create the build directory Structure -->
 		<mkdir dir="${build}" />
 	</target >
 
 	<target name="compile" depends="init" description="compile the source">
-		<javac srcdir="${src}" destdir="${build}" />
+		<javac srcdir="${src}" destdir="${build}" classpathref="compile.classpath"/>
 	</target >
 
 	<target name="dist" depends="compile" description="generate the distribution">

@@ -1,12 +1,12 @@
-<project name="MailServer" default="compile" basedir=".">
+<project name="MailServer" default="dist">
 	<description>
 		simple example build file
 	</description>
-	
-	<property name="src" location="src" />
-	<property name="lib" location="lib" />
-	<property name="build" location="classes" />
-	<property name="dist" location="dist" />
+	<property file="build.properties" />
+	<property name="src" location="${SERVER_BASE_DIR}/src" />
+	<property name="lib" location="${SERVER_BASE_DIR}/lib" />
+	<property name="build" location="${SERVER_BASE_DIR}/classes" />
+	<property name="dist" location="${SERVER_BASE_DIR}/dist" />
 	<property name="pkg" value="com/progress/mail/server" />
 	<property name="sql.driver" value="com.mysql.jdbc.Driver" />
 	<property name="sql.url" value="jdbc:mysql://nbhydvtayal:3306/emailsys_schema" />

@@ -71,7 +71,10 @@ public class MailHandlerImpl implements MailHandler{
 		try {
 			String query = "call SP_UPDATE_MAILBOXES( ?, ?, ?, ?)"; //$NON-NLS-1$
 			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, getToUsers(msg.getToUsers()));
+			String toUsers = getToUsers(msg.getToUsers());
+			if( toUsers.length() == 0)
+				return false;
+			pstmt.setString(1, toUsers);
 			pstmt.setString(2, msg.getFromUser());
 			pstmt.setString(3, msg.getSubject());
 			pstmt.setString(4, msg.getMsgBody());

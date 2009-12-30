@@ -1,10 +1,10 @@
 package com.progress.mail.client.msg;
 
+
 import java.io.IOException;
 import java.util.List;
 
 import com.progress.mail.MailHandler;
-import com.progress.mail.client.msg.Message;
 import com.progress.mail.impl.MailHandlerImpl;
 import com.progress.mail.impl.PropertiesReader;
 import com.progress.mail.util.ClientUtil;
@@ -13,7 +13,6 @@ import com.progress.mail.util.Print;
 
 /**
  * This class depicts the mail client functionality.
- * 
  * @author pchaitan
  * @since 28/12/2009
  */
@@ -55,6 +54,7 @@ public class Client {
 		count++;
 		while (isLogin == false && count < 3) {
 			Print.printString(PropertiesReader.getString("LoginErr")); //$NON-NLS-1$
+			Print.printLine();
 			Print.printLine();
 			isLogin = login();
 			count++;

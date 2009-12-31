@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class resides on mail server and is used to register new mail clients, creates their user id's,
@@ -14,7 +14,10 @@ import java.util.ArrayList;
  */
 
 public class UserRegistrationImpl {
-	public static void registerUsers(ArrayList<String> users) {
+	
+	private static boolean validUserExistence = false;
+	
+	public static void registerUsers(List<String> users) {
 		Connection con = null;
 		Statement st = null;
 		try {
@@ -32,7 +35,7 @@ public class UserRegistrationImpl {
 					createUsers(users, st);
 					insertUsersIntoClientsTable(users, st);
 					createMailboxUserTable(users, st);
-					grantAccess(users, st);
+					grantAccessToUsers(users, st);
 				}
 			}
 		} catch (Exception e) {
@@ -47,12 +50,12 @@ public class UserRegistrationImpl {
 		}
 	}
 
-
-	private static void createUsers(ArrayList<String> users, Statement st)
+	private static void createUsers(List<String> users, Statement st)
 			throws SQLException {
 		StringBuilder createUserQuery = new StringBuilder("create user "); //$NON-NLS-1$
 		for (String user : users) {
 			if (user.trim() != "") { //$NON-NLS-1$
+				validUserExistence = true;
 				createUserQuery.append("'"); //$NON-NLS-1$
 				createUserQuery.append(user);
 				createUserQuery.append("'"); //$NON-NLS-1$
@@ -63,35 +66,37 @@ public class UserRegistrationImpl {
 				createUserQuery.append(","); //$NON-NLS-1$
 			}
 		}
-		if (users.size() != 1 || users.get(0).trim() != "") { //$NON-NLS-1$
+		if (validUserExistence) { //$NON-NLS-1$
 			createUserQuery.deleteCharAt(createUserQuery.lastIndexOf(",")); //$NON-NLS-1$
 			st.execute(createUserQuery.toString());
 			System.out.println(PropertiesReader.getString("CreatedUserSuccessMsg") + users); //$NON-NLS-1$
 		}
 	}
 
-	private static void insertUsersIntoClientsTable(ArrayList<String> users,
+	private static void insertUsersIntoClientsTable(List<String> users,
 			Statement st) throws SQLException {
 		StringBuilder insertUserQuery = new StringBuilder("insert into clients (email_id) values "); //$NON-NLS-1$
 		for (String user : users) {
 			if (user.trim() != "") { //$NON-NLS-1$
+				validUserExistence = true;
 				insertUserQuery.append("('"); //$NON-NLS-1$
 				insertUserQuery.append(user);
 				insertUserQuery.append("')"); //$NON-NLS-1$
 				insertUserQuery.append(","); //$NON-NLS-1$
 			}
 		}
-		if (users.size() != 1 || users.get(0).trim() != "") { //$NON-NLS-1$
+		if (validUserExistence) { //$NON-NLS-1$
 			insertUserQuery.deleteCharAt(insertUserQuery.lastIndexOf(",")); //$NON-NLS-1$
 			st.executeUpdate(insertUserQuery.toString());
 			System.out.println(PropertiesReader.getString("InsertedUserSuccessMsg") + users); //$NON-NLS-1$
 		}		
 	}
 	
-	private static void createMailboxUserTable(ArrayList<String> users,
+	private static void createMailboxUserTable(List<String> users,
 			Statement st) throws SQLException {
 		for (String user : users) {
 			if (user.trim() != "") { //$NON-NLS-1$
+				validUserExistence = true;
 				String createtableQuery = "create table IF NOT EXISTS mailbox_" //$NON-NLS-1$
 						+ user
 						+ " (msg_id int(10) unsigned not null, primary key (msg_id));"; //$NON-NLS-1$
@@ -101,7 +106,7 @@ public class UserRegistrationImpl {
 		}
 	}
 
-	private static void grantAccess(ArrayList<String> users, Statement st)
+	private static void grantAccessToUsers(List<String> users, Statement st)
 			throws SQLException {
 		StringBuilder grantExecuteAccessToSPQuery = new StringBuilder(
 				"grant EXECUTE on PROCEDURE SP_UPDATE_MAILBOXES to "); //$NON-NLS-1$
@@ -114,6 +119,7 @@ public class UserRegistrationImpl {
 
 		for (String user : users) {
 			if (user.trim() != "") { //$NON-NLS-1$
+				validUserExistence = true;
 				StringBuilder grantSelectAccessToMailboxUserTableQuery = new StringBuilder(
 						"grant SELECT on TABLE mailbox_" + user + " to '" //$NON-NLS-1$ //$NON-NLS-2$
 								+ user + "' identified by '" + user + "'"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -161,7 +167,7 @@ public class UserRegistrationImpl {
 				grantSelectAccessToMailboxTableQuery.append(","); //$NON-NLS-1$
 			}
 		}
-		if (users.size() != 1 || users.get(0).trim() != "") { //$NON-NLS-1$
+		if (validUserExistence) { //$NON-NLS-1$
 			grantExecuteAccessToSPQuery
 					.deleteCharAt(grantExecuteAccessToSPQuery.lastIndexOf(",")); //$NON-NLS-1$
 			grantUpdateAccessToClientsTableQuery

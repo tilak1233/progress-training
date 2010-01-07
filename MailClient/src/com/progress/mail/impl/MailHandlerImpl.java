@@ -90,8 +90,9 @@ public class MailHandlerImpl implements MailHandler{
 		StringBuffer users = new StringBuffer();
 		for (String user : toUsers) {
 			if( user != null && user.trim().length() != 0 )
-				users.append(user);
+				users.append(user.trim() + ",");
 		}
+		users.deleteCharAt(users.lastIndexOf(","));
 		return users.toString();
 	}
 
